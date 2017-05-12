@@ -1,0 +1,25 @@
+version: "2"
+
+services: 
+
+  proxy:
+      image: nginx:latest
+      container_name: proxy
+      ports:
+       - "80:80"
+       - "443:443"
+      volumes:
+       - ./nginx/nginx.template.conf:/etc/nginx/nginx.template.conf
+       - ./nginx/ssl/:/etc/nginx/ssl
+      environment:
+        - NGINX_HOST
+      command: /bin/bash -c "envsubst '$$NGINX_HOST' < /etc/nginx/nginx.template.conf > /etc/nginx/nginx.conf && cat /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+
+  website:
+      build: ./AspNetCoreFormsDockerNginx
+      container_name: website
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - NGINX_HOST
+      ports:
+        - "5000:5000"

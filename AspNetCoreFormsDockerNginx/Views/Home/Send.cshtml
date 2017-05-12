@@ -1,0 +1,13 @@
+﻿@model AspNetCoreFormsDockerNginx.Controllers.SendViewModel
+
+<br/>
+<form asp-action="Send">
+	<div class="row">
+		<div class="col-md-2"><input asp-for="Name" class="form-control" /></div>
+        <div class="col-md-2"><button class="btn btn-default" type="submit">Send!</button></div>
+	</div>
+</form>
+
+<span class="label label-default">
+	Result: @Html.DisplayFor(model => model.Name)
+</span>
